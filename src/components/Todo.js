@@ -1,24 +1,21 @@
-import { useState, useEffect } from 'react'
-
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-function Todo(props) {
+const Todo = () => {
     const { todoId } = useParams()
-    const [todo, setTodo] = useState(null)
-
-    console.log(props)
 
     useEffect(() => {
-        fetch(`http://localhost:5000/todos/${todoId}`)
-         .then(res => res.json())
-         .then(todo => setTodo(todo))
-    }, [])
+        fetch('http://localhost:5000/todos/'+ todoId)
+        .then(res => res.json())
+        .then(todo => {
+          console.log(todo)
+        })
+        
+      }, [])
 
-    return (
-        <div>
-          { todo === null ? <p>Loading...</p> : <p>{todo.title}</p>}
-        </div>
-    )
+  return (
+    <div>Todo</div>
+  )
 }
 
 export default Todo

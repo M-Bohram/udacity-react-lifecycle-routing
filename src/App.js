@@ -1,60 +1,42 @@
-import { Component } from "react";
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
+import { useState } from 'react'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
-import Todo from "./components/Todo";
-import Todos from "./components/Todos";
-import TodoForm from "./components/TodoForm";
-import NotFound from "./components/NotFound";
+import Todo from './components/Todo'
+import NotFound from './components/NotFound'
+import Todos from './components/Todos'
+import TodoForm from './components/TodoForm'
 
-class App extends Component {
-  state = {
-    id: 0,
-    todos: [],
-    // comp: "todos",
-  };
 
-  onAddTodo = (todoTitle) => {
-    this.setState({
-      todos: [...this.state.todos, { title: todoTitle, id: this.state.id++ }],
-    });
-  };
+const App = () => {
+  const [todos, setTodos] = useState([])
+  const [id, setId] = useState(0)
+  // const [currentComp, setCurrentComp] = useState("todoform")
 
-  // handleCompChange = (comp) => {
-  //   this.setState({ comp });
-  // };
-
-  render() {
-    return (
-      <BrowserRouter>
-      <div className="App">
-        <Link to="/todos"><button>Todos</button></Link>
-        <Link to="/todoform"><button>TodoForm</button></Link>
-
-        <Switch>
-        <Route
-          path="/todos"
-          render = {(renderProps) => <Todos todos={this.state.todos} {...renderProps} />}
-        />
-        <Route
-          path="/todoform"
-          render = {(renderProps) => <TodoForm onAddTodo={this.onAddTodo} {...renderProps} />}
-        />
-        <Route
-          path="/todo/:todoId/:todoName"
-          component={Todo}
-        />
-        <Route
-         component={NotFound}
-        />
-        </Switch>
-        {/* {this.state.comp === "todos" && <Todos todos={this.state.todos} />}
-        {this.state.comp === "todoform" && (
-          <TodoForm onAddTodo={this.onAddTodo} />
-        )} */}
-      </div>
-      </BrowserRouter>
-    );
+  const onAddTodo = (todoTitle) => {
+    setTodos([...todos, { id , title: todoTitle}])
+    setId(id + 1)
   }
-}
+
+  // const handleComponentChange = (comp) => {
+  //   setCurrentComp(comp)
+  // }
+
+  return (
+    <BrowserRouter>
+      <div className="App">
+        <Link to=""><button>Todos</button></Link>
+        <Link to="todoform"><button>TodoForm</button></Link>
+        <Routes>
+          <Route path="/" element={<Todos todos={todos} />} />
+          <Route path="/todos/:todoId" element={<Todo />} />
+          <Route path="/todoform" element={<TodoForm onAddTodo={onAddTodo} />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        {/* { currentComp === "todos" && <Todos todos={todos} /> }
+        { currentComp === "todoform" && <TodoForm onAddTodo={onAddTodo} /> } */}
+      </div>
+    </BrowserRouter>
+  );
+};
 
 export default App;

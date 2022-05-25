@@ -1,40 +1,29 @@
-import React, { Component } from "react";
+import { useState } from 'react'
 
-export class TodoForm extends Component {
-  state = {
-    input: "",
-  };
+const TodoForm = ({ onAddTodo }) => {
+    const [input, setInput] = useState("")
 
-  componentDidMount() {
-    console.log('todoform mounted')
-  }
+    const handleChange = (event) => {
+        setInput(event.target.value)
+    }
 
-  componentDidUpdate() {
-    console.log('todoform updated')
-  }
+    const handleClick = () => {
+        // action
+        // console.log(input)
+        onAddTodo(input)
+        setInput("")
+    }
 
-  componentWillUnmount() {
-    console.log('todoform unmounted')
-  }
-
-  handleChange = (e) => {
-    this.setState({ input: e.target.value });
-  };
-
-  handleClick = () => {
-    this.props.onAddTodo(this.state.input);
-    this.setState({ input: "" });
-  };
-
-  render() {
-    return (
-      <div>
-        <input value={this.state.input} onChange={this.handleChange} />
+  return (
+    <div>
+        <input
+            value={input}
+            onChange={handleChange}
+        />
         <br />
-        <button onClick={this.handleClick}>Add Todo</button>
-      </div>
-    );
-  }
+        <button onClick={handleClick}>Add Todo</button>
+    </div>
+  )
 }
 
-export default TodoForm;
+export default TodoForm

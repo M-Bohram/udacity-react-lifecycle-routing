@@ -1,23 +1,26 @@
-import { useEffect } from "react";
+import { useState, useEffect } from 'react'
 
-function Todos({ todos }) {
+const Todos = ({ todos }) => {
+  const[ todos2, setTodos2] = useState([])
 
   useEffect(() => {
-    // componentDidMount
-    console.log('todos mounted')
+    fetch('http://localhost:5000/todos')
+    .then(res => res.json())
+    .then(todos => {
+      setTodos2(todos)
+      console.log(todos)
+    })
     return () => {
-      // componentWillUnmount
-      console.log('todos unmounted')
+      //...
+      console.log('component will unmount')
     }
   }, [])
-  
+
   return (
     <ul>
-      {todos.map((todo) => (
-        <li key={todo.id}>{todo.title}</li>
-      ))}
+        {todos2.map(todo => <li key={todo.id}>{todo.title}</li>)}
     </ul>
-  );
+  )
 }
 
-export default Todos;
+export default Todos
